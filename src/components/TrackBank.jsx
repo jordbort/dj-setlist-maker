@@ -1,25 +1,21 @@
 import Track from './Track'
 
-function TrackBank(props) {
-    const { tracks, addToSet, removeFromSet, resetButton } = props
+export default function TrackBank(props) {
+    const { trackBank, addToSet, removeFromSet, resetButton } = props
 
     return (
         <>
-            <h1>All tracks:</h1>
-            {tracks.length > 0 && <button onClick={resetButton}>Reset</button>}
+            <h1>All Tracks {`(${trackBank.length})`}</h1>
+            {trackBank.length > 0 && <button onClick={resetButton}>Reset</button>}
             <div className='tracks-container'>
-                {tracks.length
-                    ? tracks.filter((track) => { return !track.inSetList }).length
-                        ? tracks.map((entry, i) => {
-                            return entry.inSetList
-                                ? null
-                                : <Track key={i} idx={i} data={entry} addToSet={addToSet} removeFromSet={removeFromSet} />
-                        })
-                        : `None left`
+                {trackBank.length
+                    ? trackBank.map((entry, idx) => {
+                        return entry.inSetList
+                            ? null
+                            : <Track key={idx} idx={idx} data={entry} addToSet={addToSet} removeFromSet={removeFromSet} />
+                    })
                     : `Tracks are empty`}
             </div>
         </>
     )
 }
-
-export default TrackBank

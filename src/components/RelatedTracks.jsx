@@ -1,7 +1,7 @@
-// import { database } from '../data/database'
+import { useState } from 'react'
 import keys from '../data/keys'
 
-function RelatedTracks(props) {
+export default function RelatedTracks(props) {
     const { tracks, trackList, keyVariance, tempoVariance } = props
     const currentTrack = trackList[trackList.length - 1]
 
@@ -75,5 +75,3 @@ function RelatedTracks(props) {
         </>
     )
 }
-
-export default RelatedTracks

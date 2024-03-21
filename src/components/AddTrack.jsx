@@ -1,7 +1,4 @@
-import { useState } from "react"
-
-function AddTrack(props) {
-    // console.log(`AddTrack props:`, props)
+export default function AddTrack(props) {
     const { formState, handleChange, handleSubmit } = props
 
     return (
@@ -41,5 +38,3 @@ function AddTrack(props) {
         </>
     )
 }
-
-export default AddTrack

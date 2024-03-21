@@ -1,25 +1,24 @@
 import { useState } from 'react'
 import './App.css'
-import AllTracks from './components/TrackBank'
+import TrackBank from './components/TrackBank'
 import SetList from './components/SetList'
 import { database } from './data/database'
-import keys from './data/keys'
 import KeyVariance from './components/KeyVariance'
 import TempoVariance from './components/TempoVariance'
 import RelatedTracks from './components/RelatedTracks'
 import AddTrack from './components/AddTrack'
 
-function App() {
+export default function App() {
     const [tracks, setTracks] = useState(database)
     const [trackList, setTrackList] = useState([])
-
     const [formState, setFormState] = useState({})
+    
+    const trackBank = tracks.filter(track => !track.inSetList)
 
     // Set parameter for what is considered a "closely-related" key
     const [keyVariance, setKeyVariance] = useState(3) // maximum is 5, and anything less than 1 will ignore any other keys (except 6 = -6 because F#/Gb)
 
     function handleKeyVarianceChange(e) {
-        // console.log(e.target.id, e.target.value)
         setKeyVariance(e.target.value)
     }
 
@@ -27,7 +26,6 @@ function App() {
     const [tempoVariance, setTempoVariance] = useState(15) // maximum BPM difference between tracks, negative number treated the same as positive
 
     function handleTempoVarianceChange(e) {
-        // console.log(e.target.id, e.target.value)
         setTempoVariance(e.target.value)
     }
 
@@ -49,7 +47,6 @@ function App() {
     }
 
     function handleChange(e) {
-        // console.log(e.target.id, e.target.value)
         setFormState({ ...formState, [e.target.id]: e.target.value })
     }
 
@@ -69,8 +66,6 @@ function App() {
 
     function handleTempoVarianceSubmit(e) {
         e.preventDefault()
-        // console.log(e.defaultPrevented)
-        // console.log(e.target.tempo.value)
         handleTempoVarianceSubmit(e.target.tempo.value)
     }
 
@@ -92,5 +87,3 @@ function App() {
         </>
     )
 }
-
-export default App

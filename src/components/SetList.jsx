@@ -1,6 +1,6 @@
 import Track from './Track'
 
-function SetList(props) {
+export default function SetList(props) {
     const { trackList, removeFromSet } = props
 
     return (
@@ -8,9 +8,9 @@ function SetList(props) {
             <h1>Set List</h1>
             <div className='tracks-container'>
                 {trackList.length
-                    ? trackList.map((entry, i) => {
-                        return entry.inSetList
-                            ? <Track key={i} idx={i} data={entry} removeFromSet={removeFromSet} />
+                    ? trackList.map((track, idx) => {
+                        return track.inSetList
+                            ? <Track key={idx} idx={idx} data={track} removeFromSet={removeFromSet} />
                             : null
                     })
                     : `No tracks`}
@@ -18,5 +18,3 @@ function SetList(props) {
         </>
     )
 }
-
-export default SetList

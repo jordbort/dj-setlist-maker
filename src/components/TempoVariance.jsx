@@ -1,4 +1,4 @@
-function TempoVariance(props) {
+export default function TempoVariance(props) {
     const { tempoVariance, handleTempoVarianceChange, handleTempoVarianceSubmit } = props
 
     return (
@@ -12,5 +12,3 @@ function TempoVariance(props) {
         </>
     )
 }
-
-export default TempoVariance
