@@ -1,4 +1,5 @@
 const keys = {
+    [-6]: `F#/Gb / D#/Ebm`,
     [-5]: `Db / Bbm`,
     [-4]: `Ab / Fm`,
     [-3]: `Eb / Cm`,

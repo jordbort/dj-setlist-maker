@@ -66,25 +66,30 @@ export default function RelatedTracks(props) {
             }
             {
                 suggestedTracks.length
-                ? <>
-                    <p>Recommended tracks of a similar key/tempo:</p>
-                    <ul>
-                        {suggestedTracks.map((track, i) => {
-                            return <li
-                                style={{
-                                    backgroundColor: relationColors[track.key - currentTrack.key],
-                                    fontWeight:
-                                        Math.abs(track.bpm - currentTrack.bpm) <= Math.ceil(tempoVariance * .6)
-                                            ? `bold`
-                                            : `normal`
-                                }}
-                                key={i}>
-                                {track.name} (Key: {keys[track.key]} - BPM: {track.bpm})
-                            </li>
-                        })}
-                    </ul>
-                </>
-                : <p>No related tracks! :(</p>}
+                    ? <>
+                        <p>Recommended tracks of a similar key/tempo:</p>
+                        <ul>
+                            {suggestedTracks.map((track, idx) => {
+                                return <li
+                                    style={{
+                                        backgroundColor: relationColors[track.key - currentTrack.key],
+                                        fontWeight:
+                                            track.bpm > currentTrack.bpm
+                                                ? `bold` // if suggested track is a faster tempo
+                                                : `normal` // if suggested track is the same tempo or slower
+                                    }}
+                                    key={idx}>
+                                    {track.artist} - "{track.name}" {`(key: ${keys[track.key]} - BPM: ${track.bpm})`}
+                                </li>
+                            })}
+                        </ul>
+                    </>
+                    : trackList.length
+                        ? <p>No tracks to suggest!</p>
+                        : null
+            }
+            <input type='checkbox' id="filter" name="filter" value="what" checked={filter} onChange={handleChange} />
+            <label htmlFor="filter">Filter out artists already in set list?</label>
         </>
     )
 }
