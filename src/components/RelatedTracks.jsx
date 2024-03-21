@@ -5,6 +5,9 @@ export default function RelatedTracks(props) {
     const { tracks, trackList, keyVariance, tempoVariance } = props
     const currentTrack = trackList[trackList.length - 1]
 
+    const [filter, setFilter] = useState(false)
+    function handleChange() { setFilter(!filter) }
+
     const suggestedTracks = []
     if (currentTrack) {
         for (const track of tracks) {
@@ -33,7 +36,11 @@ export default function RelatedTracks(props) {
                 const similarTracks = tracks.filter((track) => {
                     return closelyRelatedKeyTracks.includes(track) && closelyRelatedTempoTracks.includes(track) && name !== track.name
                 })
-                if (similarTracks.includes(currentTrack)) { suggestedTracks.push(track) }
+                if (similarTracks.includes(currentTrack)) {
+                    filter
+                        ? !trackList.map(track => track.artist).includes(track.artist) && suggestedTracks.push(track)
+                        : suggestedTracks.push(track)
+                }
             }
         }
     }
@@ -50,9 +57,15 @@ export default function RelatedTracks(props) {
 
     return (
         <>
-            <h1>Related Tracks:</h1>
-            <p>Current track: {trackList.length ? currentTrack.name : `Select your starting track!`}</p>
-            {suggestedTracks.length
+            <h1>Suggested Next Tracks {`(${suggestedTracks.length})`}</h1>
+            <h2>Current track: {trackList.length ? `${currentTrack.artist} - "${currentTrack.name}" (key: ${keys[currentTrack.key]} - BPM: ${currentTrack.bpm})` : `Select your starting track!`}</h2>
+            {
+                filter && trackList.length
+                    ? <p><strong>Excluding: {trackList.map(track => track.artist).filter((name, idx) => trackList.map(track => track.artist).indexOf(name) === idx).join(`, `)}</strong></p>
+                    : null
+            }
+            {
+                suggestedTracks.length
                 ? <>
                     <p>Recommended tracks of a similar key/tempo:</p>
                     <ul>
