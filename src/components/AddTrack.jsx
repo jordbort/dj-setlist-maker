@@ -7,8 +7,11 @@ function AddTrack(props) {
     return (
         <>
             <form onChange={handleChange} onSubmit={handleSubmit}>
-                <label htmlFor="trackName">Track ID </label>
-                <input type="text" id="trackName" name="trackName" placeholder='Artist - "Track Name"' />
+                <label htmlFor="trackName">Title </label>
+                <input type="text" id="trackName" name="trackName" placeholder='Track name' />
+
+                <label htmlFor="trackArtist">Artist </label>
+                <input type="text" id="trackArtist" name="trackArtist" placeholder='Track artist' />
 
                 <label htmlFor="bpm">BPM </label>
                 <input type="number" id="bpm" name="bpm" min="1" max="999" placeholder="120" />
@@ -32,8 +35,8 @@ function AddTrack(props) {
 
                 <input type="submit" />
             </form>
-            {formState.trackName && formState.bpm && formState.key ? formState.error = '' : null}
-            {formState.trackName && formState.bpm && formState.key ? formState.help = '' : null}
+            {formState.trackName && formState.trackArtist && formState.bpm && formState.key ? formState.error = '' : null}
+            {formState.trackName && formState.trackArtist && formState.bpm && formState.key ? formState.help = '' : null}
             {formState.error ? <p>{formState.error}: {formState.help}</p> : null}
         </>
     )

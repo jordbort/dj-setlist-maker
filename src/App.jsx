@@ -55,13 +55,13 @@ function App() {
 
     function handleSubmit(e) {
         e.preventDefault()
-        // console.log(e.defaultPrevented)
-        if (!formState.trackName || !formState.bpm || !formState.key) {
-            return setFormState({ ...formState, error: `Incomplete form`, help: `Please enter track name, BPM, and choose a key` })
+        if (!formState.trackName || !formState.trackArtist || !formState.bpm || !formState.key) {
+            return setFormState({ ...formState, error: `Incomplete form`, help: `Please enter track title, artist, BPM, and key` })
         }
-        // console.log(formState)
-        tracks.push({ name: formState.trackName, key: Number(formState.key), bpm: Number(formState.bpm), inSetList: false })
+        console.log(formState)
+        tracks.push({ name: formState.trackName, artist: formState.trackArtist, key: Number(formState.key), bpm: Number(formState.bpm), inSetList: false })
         e.target.trackName.value = ''
+        e.target.trackArtist.value = ''
         e.target.key.value = 6
         e.target.bpm.value = ''
         setFormState({})
