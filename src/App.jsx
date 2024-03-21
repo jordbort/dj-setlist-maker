@@ -30,20 +30,15 @@ export default function App() {
     }
 
     function addToSet(idx) {
-        // console.log(`> addToSet()`, idx)
-        tracks[idx].inSetList = true
-        // console.log(`> addToSet()`, tracks[idx])
+        trackList.push(tracks[tracks.indexOf(trackBank[idx])])
+        tracks[tracks.indexOf(trackBank[idx])].inSetList = true
         setTracks([...tracks])
-        trackList.push(tracks[idx])
     }
 
     function removeFromSet(idx) {
-        // console.log(`> removeFromSet()`, idx)
-        trackList[idx].inSetList = false
-        // console.log(`> removeFromSet()`, trackList[idx])
+        tracks[tracks.indexOf(trackList[idx])].inSetList = false
         setTracks([...tracks])
-        trackList.splice(tracks[idx], 1)
-        setTrackList([...trackList])
+        trackList.splice(idx, 1)
     }
 
     function handleChange(e) {
@@ -77,11 +72,10 @@ export default function App() {
 
     return (
         <>
-            {/* <h1>Hello!</h1> */}
             <AddTrack formState={formState} handleChange={handleChange} handleSubmit={handleSubmit} />
-            <AllTracks tracks={tracks} setTracks={setTracks} addToSet={addToSet} resetButton={resetButton} />
-            <RelatedTracks keyVariance={keyVariance} tempoVariance={tempoVariance} tracks={tracks} trackList={trackList} />
-            <KeyVariance keyVariance={keyVariance} handleKeyVarianceChange={handleKeyVarianceChange} />
+            <TrackBank trackBank={trackBank} removeFromSet={removeFromSet} addToSet={addToSet} resetButton={resetButton} />
+            <RelatedTracks tracks={tracks} keyVariance={keyVariance} tempoVariance={tempoVariance} trackList={trackList} />
+            <KeyVariance handleKeyVarianceChange={handleKeyVarianceChange} />
             <TempoVariance tempoVariance={tempoVariance} handleTempoVarianceChange={handleTempoVarianceChange} handleTempoVarianceSubmit={handleTempoVarianceSubmit} />
             <SetList trackList={trackList} removeFromSet={removeFromSet} />
         </>
