@@ -6,7 +6,6 @@ export default function RelatedTracks(props) {
     const currentTrack = trackList[trackList.length - 1]
 
     const [filter, setFilter] = useState(false)
-    function handleChange() { setFilter(!filter) }
 
     const suggestedTracks = []
     if (currentTrack) {
@@ -75,8 +74,8 @@ export default function RelatedTracks(props) {
                                         backgroundColor: relationColors[track.key - currentTrack.key],
                                         fontWeight:
                                             track.bpm > currentTrack.bpm
-                                                ? `bold` // if suggested track is a faster tempo
-                                                : `normal` // if suggested track is the same tempo or slower
+                                                ? `bold` // If suggested track is a faster tempo
+                                                : `normal` // If suggested track is the same tempo or slower
                                     }}
                                     key={idx}>
                                     {track.artist} - "{track.name}" {`(key: ${keys[track.key]} - BPM: ${track.bpm})`}
@@ -88,8 +87,8 @@ export default function RelatedTracks(props) {
                         ? <p>No tracks to suggest!</p>
                         : null
             }
-            <input type='checkbox' id="filter" name="filter" value="what" checked={filter} onChange={handleChange} />
-            <label htmlFor="filter">Filter out artists already in set list?</label>
+            <input type='checkbox' id='filter' checked={filter} onChange={() => setFilter(!filter)} />
+            <label htmlFor='filter'>Filter out artists already in set list?</label>
         </>
     )
 }
