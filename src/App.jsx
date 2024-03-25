@@ -7,27 +7,19 @@ import KeyVariance from './components/KeyVariance'
 import TempoVariance from './components/TempoVariance'
 import RelatedTracks from './components/RelatedTracks'
 import AddTrack from './components/AddTrack'
+import SavedSet from './components/SavedSet'
 
 export default function App() {
-    const [tracks, setTracks] = useState(database)
+    const [tracks, setTracks] = useState([])
     const [trackList, setTrackList] = useState([])
-    const [formState, setFormState] = useState({})
-    
+
     const trackBank = tracks.filter(track => !track.inSetList)
 
     // Set parameter for what is considered a "closely-related" key
     const [keyVariance, setKeyVariance] = useState(3) // maximum is 5, and anything less than 1 will ignore any other keys (except 6 = -6 because F#/Gb)
 
-    function handleKeyVarianceChange(e) {
-        setKeyVariance(e.target.value)
-    }
-
     // Set parameter for what is considered a "closely-related" tempo
     const [tempoVariance, setTempoVariance] = useState(15) // maximum BPM difference between tracks, negative number treated the same as positive
-
-    function handleTempoVarianceChange(e) {
-        setTempoVariance(e.target.value)
-    }
 
     function addToSet(idx) {
         trackList.push(tracks[tracks.indexOf(trackBank[idx])])
@@ -41,43 +33,15 @@ export default function App() {
         trackList.splice(idx, 1)
     }
 
-    function handleChange(e) {
-        setFormState({ ...formState, [e.target.id]: e.target.value })
-    }
-
-    function handleSubmit(e) {
-        e.preventDefault()
-        if (!formState.trackName || !formState.trackArtist || !formState.bpm || !formState.key) {
-            return setFormState({ ...formState, error: `Incomplete form`, help: `Please enter track title, artist, BPM, and key` })
-        }
-        console.log(formState)
-        tracks.push({ name: formState.trackName, artist: formState.trackArtist, key: Number(formState.key), bpm: Number(formState.bpm), inSetList: false })
-        e.target.trackName.value = ''
-        e.target.trackArtist.value = ''
-        e.target.key.value = 6
-        e.target.bpm.value = ''
-        setFormState({})
-    }
-
-    function handleTempoVarianceSubmit(e) {
-        e.preventDefault()
-        handleTempoVarianceSubmit(e.target.tempo.value)
-    }
-
-    function resetButton() {
-        tracks.forEach((track) => { track.inSetList = false })
-        setTracks([...tracks])
-        setTrackList([])
-    }
-
     return (
         <>
-            <AddTrack formState={formState} handleChange={handleChange} handleSubmit={handleSubmit} />
-            <TrackBank trackBank={trackBank} removeFromSet={removeFromSet} addToSet={addToSet} resetButton={resetButton} />
+            <AddTrack tracks={tracks} setTracks={setTracks} />
+            <TrackBank trackBank={trackBank} removeFromSet={removeFromSet} addToSet={addToSet} />
             <RelatedTracks tracks={tracks} keyVariance={keyVariance} tempoVariance={tempoVariance} trackList={trackList} />
-            <KeyVariance handleKeyVarianceChange={handleKeyVarianceChange} />
-            <TempoVariance tempoVariance={tempoVariance} handleTempoVarianceChange={handleTempoVarianceChange} handleTempoVarianceSubmit={handleTempoVarianceSubmit} />
+            <KeyVariance setKeyVariance={setKeyVariance} />
+            <TempoVariance setTempoVariance={setTempoVariance} />
             <SetList trackList={trackList} removeFromSet={removeFromSet} />
+            <SavedSet tracks={tracks} setTracks={setTracks} trackList={trackList} setTrackList={setTrackList} />
         </>
     )
 }

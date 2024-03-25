@@ -1,9 +1,27 @@
+import { useState } from "react"
+
 export default function AddTrack(props) {
-    const { formState, handleChange, handleSubmit } = props
+    const { tracks, setTracks } = props
+
+    const [formState, setFormState] = useState({})
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        if (!formState.trackName || !formState.trackArtist || !formState.bpm || !formState.key) {
+            return setFormState({ ...formState, error: `Incomplete form`, help: `Please enter track title, artist, BPM, and key` })
+        }
+        tracks.push({ name: formState.trackName, artist: formState.trackArtist, key: Number(formState.key), bpm: Number(formState.bpm), inSetList: false })
+        e.target.trackName.value = ''
+        e.target.trackArtist.value = ''
+        e.target.key.value = 6
+        e.target.bpm.value = ''
+        setFormState({})
+        setTracks([...tracks])
+    }
 
     return (
         <>
-            <form onChange={handleChange} onSubmit={handleSubmit}>
+            <form onChange={(e) => setFormState({ ...formState, [e.target.id]: e.target.value })} onSubmit={handleSubmit}>
                 <label htmlFor="trackName">Title </label>
                 <input type="text" id="trackName" name="trackName" placeholder='Track name' />
 
